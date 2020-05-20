@@ -1,6 +1,7 @@
 <script>
 	let strength = 0;
 	let validations = [];
+	let showPassword = false;
 
 	function validatePassword(e) {
 		const password = e.target.value;
@@ -10,13 +11,35 @@
 			(password.search(/[A-Z]/) > -1),
 			(password.search(/[0-9]/) > -1),
 			(password.search(/[$&+,:;=?@#]/) > -1),
-		]
+		];
 
 		strength = validations.reduce((acc, curr) => acc + curr)
 	}
 </script>
 
 <style>
+	body {
+		color: white;
+		background: black;
+		margin: 0;
+		padding: 8px;
+		box-sizing: border-box;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	}
+
+  h1 {
+    font-family: gothic-open-shaded, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+	}
+	
+  main {
+    display: flex;
+    align-items: center;
+		flex-direction: column;
+		text-align: center;
+	}
+	
 	form {
 		--text-color: #afafaf;
 		max-width: 500px;
@@ -129,18 +152,34 @@
 	.bar-4 {
 		background: linear-gradient(to right, yellowgreen, green);
 	}
+
+	.toggle-password {
+		position: absolute;
+		cursor: help;
+		font-size: 0.8rem;
+		right: 0.25rem;
+		bottom: 0.25rem;
+	}
 </style>
 
 <main>
-	<form>
+	<h1>Sign Up</h1>
+	<form class="form">
 
 		<div class="field">
 			<input type="email" name="email" class="input" placeholder=" " />
 			<label for="email" class="label">Email</label>
 		</div>
 		<div class="field">
-			<input type="password" name="password" class="input" placeholder=" " on:input={validatePassword}/>
+			<input type={showPassword ? 'text' : 'password'} name="password" class="input" placeholder=" " on:input={validatePassword}/>
 			<label for="password" class="label">Password</label>
+			<span
+				class="toggle-password"
+				on:mouseenter={()=>(showPassword = true)}
+				on:mouseleave={()=>(showPassword = false)}
+				>
+        {showPassword ? '🙈' : '👁️'}
+				</span>
 		</div>
 
 		<div class="strength">
